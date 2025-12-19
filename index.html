@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Cookbook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">🍲</div>
+      <div>
+        <h1>My Cookbook</h1>
+        <p class="sub">Simple recipes, easy search, zero hassle.</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <input id="search" class="search" type="search" placeholder="Search recipes… (e.g. chicken, vegan, 30 min)" />
+      <select id="category" class="select">
+        <option value="all">All categories</option>
+      </select>
+      <button id="random" class="btn secondary" title="Surprise me">Random</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- LIST VIEW -->
+    <section id="listView" class="card">
+      <div class="list-header">
+        <h2 id="listTitle">Recipes</h2>
+        <div class="muted" id="resultCount"></div>
+      </div>
+
+      <div id="chips" class="chips"></div>
+
+      <div id="grid" class="grid" aria-live="polite"></div>
+      <div id="empty" class="empty" hidden>
+        <div class="empty-title">No recipes match that.</div>
+        <div class="muted">Try a different search or clear filters.</div>
+        <button id="clearFilters" class="btn">Clear filters</button>
+      </div>
+    </section>
+
+    <!-- RECIPE VIEW -->
+    <section id="recipeView" class="card" hidden>
+      <div class="recipe-top">
+        <button id="back" class="btn secondary">← Back</button>
+        <div class="spacer"></div>
+        <button id="copyLink" class="btn secondary">Copy link</button>
+        <button id="print" class="btn">Print</button>
+      </div>
+
+      <article class="recipe" id="recipeArticle"></article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Hosted on Netlify • Built as a static site • Edit <span class="mono">recipes.json</span> to add recipes
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
