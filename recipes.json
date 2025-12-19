@@ -1,5 +1,29 @@
 [
   {
+    "id": "american-pancakes",
+    "title": "Amerískar pönnukökur",
+    "category": "Dögurður",
+    "tags": ["brunch"],
+    "time_minutes": 35,
+    "servings": 4,
+    "description": "Klassískar amerískar pönnukökur",
+    "ingredients": [
+      "2 stk. egg",
+      "4-5 dl. mjólk",
+      "350 gr. hveiti",
+      "4 msk. sykur",
+      "4 tsk. lyftiduft",
+      "1 tsk. salt",
+      "smá vanilludropar ... eftir smekk"
+    ],
+    "steps": [
+      "Blandið saman eggjum og mjólk.", 
+      "Setjið svo þurrefnin saman við.",
+      "Smá olía eða smjölíki sett á pönnuna og lítil ausa af deigi sett á. ",
+      "Bakað og snúið við þegar er orðið alsett loftbólum."
+    ],
+    "notes": "Borðað með miklu hlynsírópi."
+  },  {
     "id": "butter-chicken",
     "title": "Quick Butter Chicken",
     "category": "Dinner",
