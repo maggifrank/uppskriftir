@@ -11,15 +11,15 @@
     <div class="brand">
       <div class="logo">🍲</div>
       <div>
-        <h1>My Cookbook</h1>
-        <p class="sub">Simple recipes, easy search, zero hassle.</p>
+        <h1>Uppskriftir</h1>
+        <p class="sub">Saman safn af uppskriftum. Sumar frá mér aðrar frá öðrum.</p>
       </div>
     </div>
 
     <div class="top-actions">
       <input id="search" class="search" type="search" placeholder="Search recipes… (e.g. chicken, vegan, 30 min)" />
       <select id="category" class="select">
-        <option value="all">All categories</option>
+        <option value="all">Allir flokkar</option>
       </select>
       <button id="random" class="btn secondary" title="Surprise me">Random</button>
     </div>
@@ -29,7 +29,7 @@
     <!-- LIST VIEW -->
     <section id="listView" class="card">
       <div class="list-header">
-        <h2 id="listTitle">Recipes</h2>
+        <h2 id="listTitle">Uppskriftir</h2>
         <div class="muted" id="resultCount"></div>
       </div>
 
@@ -37,19 +37,19 @@
 
       <div id="grid" class="grid" aria-live="polite"></div>
       <div id="empty" class="empty" hidden>
-        <div class="empty-title">No recipes match that.</div>
-        <div class="muted">Try a different search or clear filters.</div>
-        <button id="clearFilters" class="btn">Clear filters</button>
+        <div class="empty-title">Engar uppskriftir fundust.</div>
+        <div class="muted">Reyndu önnur leitarskilyrði</div>
+        <button id="clearFilters" class="btn">Hreinsa síur</button>
       </div>
     </section>
 
     <!-- RECIPE VIEW -->
     <section id="recipeView" class="card" hidden>
       <div class="recipe-top">
-        <button id="back" class="btn secondary">← Back</button>
+        <button id="back" class="btn secondary">← Til baka</button>
         <div class="spacer"></div>
-        <button id="copyLink" class="btn secondary">Copy link</button>
-        <button id="print" class="btn">Print</button>
+        <button id="copyLink" class="btn secondary">afrita hlekk</button>
+        <button id="print" class="btn">Prenta</button>
       </div>
 
       <article class="recipe" id="recipeArticle"></article>
@@ -57,7 +57,7 @@
   </main>
 
   <footer class="footer">
-    Hosted on Netlify • Built as a static site • Edit <span class="mono">recipes.json</span> to add recipes
+    
   </footer>
 
   <script src="app.js"></script>
