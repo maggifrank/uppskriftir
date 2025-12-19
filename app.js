@@ -45,7 +45,7 @@ function populateCategorySelect(){
   for (const c of cats){
     const opt = document.createElement("option");
     opt.value = c === "All" ? "all" : c;
-    opt.textContent = c === "All" ? "All categories" : c;
+    opt.textContent = c === "All" ? "Allir flokkar" : c;
     sel.appendChild(opt);
   }
 }
