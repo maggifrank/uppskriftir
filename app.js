@@ -180,11 +180,11 @@ function renderRecipe(recipe){
     return `
       <div class="cols">
         <section>
-          <h3>Ingredients</h3>
+          <h3>Innihald</h3>
           <ul>${ingredients}</ul>
         </section>
         <section>
-          <h3>Steps</h3>
+          <h3>Skref</h3>
           <ol>${steps}</ol>
         </section>
       </div>
@@ -202,11 +202,11 @@ function renderRecipe(recipe){
           <h3>${escapeHtml(p.title || `Part ${idx+1}`)}</h3>
           <div class="cols">
             <section>
-              <h3>Ingredients</h3>
+              <h3>Innihald</h3>
               <ul>${ings}</ul>
             </section>
             <section>
-              <h3>Steps</h3>
+              <h3>Skref</h3>
               <ol>${stps}</ol>
             </section>
           </div>
