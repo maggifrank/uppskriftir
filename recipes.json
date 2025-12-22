@@ -17,37 +17,60 @@
       "smá vanilludropar ... eftir smekk"
     ],
     "steps": [
-      "Blandið saman eggjum og mjólk.", 
+      "Blandið saman eggjum og mjólk.",
       "Setjið svo þurrefnin saman við.",
       "Smá olía eða smjölíki sett á pönnuna og lítil ausa af deigi sett á. ",
       "Bakað og snúið við þegar er orðið alsett loftbólum."
     ],
     "notes": "Borðað með miklu hlynsírópi."
-  },  {
+  },
+  {
     "id": "drommekage",
     "title": "Sjónvarpskaka",
     "category": "kaffitimi",
-    "tags": ["kaffitími","kaka"],
+    "tags": ["kaffitími", "kaka"],
     "time_minutes": 35,
-    "servings": 4,
-    "description": "Klassískar amerískar pönnukökur",
-    "Botn": [
-      "4 stk. egg",
-      "300 gr sykur",
-      "2 tsk. vanilludropar",
-      "250 gr. hveiti",
-      "3 tsk. lyftiduft",
-      "2 dl. mjólk",
-      "50 gr. smjör"
+    "servings": 0,
+    "description": "En klassiske fjernsynskage",
+    "parts": [
+      {
+        "title": "Botn",
+        "ingredients": [
+          "4 stk. egg",
+          "300 gr sykur",
+          "2 tsk. vanilludropar",
+          "250 gr. hveiti",
+          "3 tsk. lyftiduft",
+          "2 dl. mjólk",
+          "50 gr. smjör"
+        ],
+        "steps": [
+          "Þeytið saman egg og sykur þar til létt og ljóst og bætið þá vanilludropunum saman við.",
+          "Blandið hveiti og lyftidufti saman og sigtið í nokkrum skömmtum út í eggjablönduna og blandið vel á milli.",
+          "Bræðið smjörið við meðalhita og bætið þá mjólkinni saman við og hrærið saman, hellið síðan varlega saman við blönduna, blandið vel og skafið niður á milli.",
+          "Hellið í skúffukökuform sem er um 30 x 40 cm stórt. Gott er að klæða formið með bökunarpappír og spreyja með matarolíuspreyi (þá er auðveldara að ná kökunni úr þegar hún kólnar).",
+          "Bakið við 175°C í 30-35 mínútur eða þar til prjónn kemur hreinn út og kakan fer aðeins að gyllast. Útbúið kókostoppinn á meðan."
+        ]
+      },
+      {
+        "title": "Kókostoppur",
+        "ingredients": [
+          "170 gr. smjör",
+          "340 gr. púðursykur",
+          "120 ml. mjólk ",
+          "250 gr. kókosmjöl"
+        ],
+
+        "steps": [
+          "Bræðið smjör, púðursykur og mjólk saman í potti við meðalhita. Bætið kókosmjölinu saman við þegar bráðið og blandið vel.",
+          "Þegar kakan er tilbúin hellið þið blöndunni jafnt yfir hana og dreifið úr með spaða og bakið áfram í um 10 mínútur eða þar til kókostoppurinn fer að gyllast.",
+          "Leyfið kökunni að kólna vel og lyftið síðan upp úr forminu og skerið í bita. Þessi kaka er dásamleg aðeins volg með ískaldri mjólk."
+        ]
+      }
     ],
-    "Kókostoppur": [
-      "170 gr. smjör", 
-      "340 gr. púðursykur",
-      "120 ml. mjólk ",
-      "250 gr. kókosmjöl"
-    ],
-    "notes": "Borðað með miklu hlynsírópi."
-  },  {
+    "notes": "Borðað með ííííískaldri mjólk."
+  },
+  {
     "id": "butter-chicken",
     "title": "Quick Butter Chicken",
     "category": "Dinner",
