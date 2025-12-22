@@ -203,7 +203,7 @@ const renderParts = () => {
 
       return `
         <section style="margin-top:${idx === 0 ? "0" : "16px"};">
-          <h3>${escapeHtml(p.title || "Áhöld")}</h3>
+          <h4>${escapeHtml(p.title || "Áhöld")}</h4>
           <ul>${items}</ul>
         </section>
       `;
