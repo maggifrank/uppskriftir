@@ -27,7 +27,7 @@
   {
     "id": "drommekage",
     "title": "Sjónvarpskaka",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "kaka"],
     "time_minutes": 35,
     "servings": 0,
@@ -78,7 +78,7 @@
   {
     "id": "braudhleifur",
     "title": "Brauðhleifur",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "brauð"],
     "time_minutes": 240,
     "servings": 0,
@@ -116,7 +116,7 @@
   {
     "id": "vofflur",
     "title": "Vöfflur",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "vöfflur"],
     "time_minutes": 0,
     "servings": 0,
@@ -152,7 +152,7 @@
   {
     "id": "kryddbraud",
     "title": "Kryddbrauð",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "brauð"],
     "time_minutes": 40,
     "servings": 0,
@@ -186,7 +186,7 @@
   {
     "id": "skonsur",
     "title": "Skonsur",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "brauð"],
     "time_minutes": 30,
     "servings": 0,
@@ -231,7 +231,7 @@
   {
     "id": "bananabraud",
     "title": "Bananabrauð",
-    "category": "kaffitimi",
+    "category": "Kaffitími",
     "tags": ["kaffitími", "brauð"],
     "time_minutes": 60,
     "servings": 0,
@@ -269,7 +269,7 @@
   {
     "id": "kjuklingaborgari",
     "title": "Kjúklingaborgari",
-    "category": "kvöldmatur",
+    "category": "Kvöldmatur",
     "tags": ["kvöldmatur", "kjúklingur"],
     "time_minutes": 40,
     "servings": 0,
@@ -307,7 +307,7 @@
   {
     "id": "braudbollur",
     "title": "Brauðbollur",
-    "category": "kvöldmatur",
+    "category": "Kvöldmatur",
     "tags": ["kvöldmatur", "brauð"],
     "time_minutes": 110,
     "servings": 6,
@@ -349,7 +349,7 @@
   {
     "id": "grjonagrautur",
     "title": "Grjónagrautur",
-    "category": "kvöldmatur",
+    "category": "Kvöldmatur",
     "tags": ["kvöldmatur", "grautur"],
     "time_minutes": 95,
     "servings": 4,
@@ -387,7 +387,7 @@
   {
     "id": "is",
     "title": "Ís",
-    "category": "eftirréttur",
+    "category": "Eftirréttur",
     "tags": ["eftirréttur", "ÍS"],
     "time_minutes": 0,
     "servings": 0,
