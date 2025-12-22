@@ -77,7 +77,7 @@
   },
   {
     "id": "braudhleifur",
-    "title": "Braudhleifur",
+    "title": "Brauðhleifur",
     "category": "kaffitimi",
     "tags": ["kaffitími", "brauð"],
     "time_minutes": 240,
@@ -98,19 +98,134 @@
           "14 gr. salt",
           "490 gr. vatn"
         ],
-        "steps": [    
-    "Þurrefnum blandað í skál (muna að sigta hveiti)",
-    "Vatni hellt rólega yfir og hrært með sleif",
-    "Deigsullinu skellt á 'hveitað' yfirborð",
-    "Hnoða hnoða hnoða þar til deigið er orðið falleg kúla",
-    "Setja smá olíu í skál og deigið látið hefast þar í 90 mín",
-    "Deigið tekið úr skálinni og brotið saman svo það passi í brauðform",
-    "Látið hefast í brauðforminu í 60 mín",
-    "Strá smá hveiti yfir og rista í með hníf",
-    "Baka í 15 mín við 210°C og svo 45 mín við 175°C"
+        "steps": [
+          "Þurrefnum blandað í skál (muna að sigta hveiti)",
+          "Vatni hellt rólega yfir og hrært með sleif",
+          "Deigsullinu skellt á 'hveitað' yfirborð",
+          "Hnoða hnoða hnoða þar til deigið er orðið falleg kúla",
+          "Setja smá olíu í skál og deigið látið hefast þar í 90 mín",
+          "Deigið tekið úr skálinni og brotið saman svo það passi í brauðform",
+          "Látið hefast í brauðforminu í 60 mín",
+          "Strá smá hveiti yfir og rista í með hníf",
+          "Baka í 15 mín við 210°C og svo 45 mín við 175°C"
         ]
       }
     ],
     "notes": "Good shit brauð"
+  },
+  {
+    "id": "vofflur",
+    "title": "Vöfflur",
+    "category": "kaffitimi",
+    "tags": ["kaffitími", "vöfflur"],
+    "time_minutes": 0,
+    "servings": 0,
+    "description": "And tomorrw I'm makin' waffles",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Mæliskeiðar", "Skál", "Vigt", "Handþeytari", "Vöfflujárn"]
+      },
+      {
+        "title": "Vöfflur",
+        "ingredients": [
+          "2 stk. egg",
+          "1 msk. sykur",
+          "250 gr. hveiti",
+          "1 tsk. lyftiduft",
+          "1 tsk. vanilludropar",
+          "3-4 dl. nýmjólk",
+          "80 gr. smörlíki"
+        ],
+        "steps": [
+          "Sykur og egg hrærð saman",
+          "Hluta af þurrefnum og hluta af mjólkinni blandað saman þar til allt er komið í hrærigraut",
+          "Bræddu smjörlíki hellt varlega út í hrærigrautinn",
+          "Dropunum bætt við í lokin",
+          "Smyrjið vöfflujárnið fyrir notkun"
+        ]
+      }
+    ],
+    "notes": "Klassískar vöfflur sem klikka ekki."
+  },
+  {
+    "id": "kryddbraud",
+    "title": "Kryddbrauð",
+    "category": "kaffitimi",
+    "tags": ["kaffitími", "brauð"],
+    "time_minutes": 40,
+    "servings": 0,
+    "description": "Bezt í heimi",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Mæliskeiðar", "Skál", "Vigt", "Brauðform", "Sleif"]
+      },
+      {
+        "title": "Kryddbrauð",
+        "ingredients": [
+          "160 gr. hveiti",
+          "150 gr. sykur",
+          "120 gr. haframjöl",
+          "1 tsk. negull",
+          "1 tsk. kanill",
+          "1 tsk. kakó",
+          "3 dl. nýmjólk"
+        ],
+        "steps": [
+          "Öllu hent saman í skál og hrært með sleif",
+          "Deiginu hellt í formið",
+          "Bakað við 200°C í 30 mín"
+        ]
+      }
+    ],
+    "notes": "Gott með smjöri og ost."
+  },
+  {
+    "id": "skonsur",
+    "title": "Skonsur",
+    "category": "kaffitimi",
+    "tags": ["kaffitími", "brauð"],
+    "time_minutes": 30,
+    "servings": 0,
+    "description": "Eins og amma gerði þær",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Mæliskeiðar", "Skál", "Lítil panna (24cm)", "Handþeytari"]
+      },
+      {
+        "title": "Kryddbrauð",
+        "ingredients": [
+          "750 gr. hveiti",
+          "1 dl. sykur",
+          "2 stk. egg",
+          "2 tsk. lyftiduft",
+          "6 dl. nýmjólk"
+        ],
+        "steps": [
+          {
+            "text": "Þurrefnunum blandað saman í skál",
+            "image": "img/skonsur/1.jpg"
+          },
+          {
+            "text": "Vökvanum blandað saman við ",
+            "image": ""
+          },
+          {
+            "text": "Steikt á pönnu við miðlungshita þar til skonsan er þakin bólum ",
+            "image": "img/skonsur/2.jpg"
+          },
+          {
+            "text": "Steikt í smá á bóluhliðinni",
+            "image": "img/skonsur/3.jpg"
+          }
+        ]
+      }
+    ],
+    "notes": "Gott með smjöri og ost."
   }
 ]

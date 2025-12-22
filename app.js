@@ -208,6 +208,26 @@ function renderRecipe(recipe) {
       </div>
     `;
   };
+function renderSteps(steps = []){
+  return steps.map(s => {
+    // Old format: string
+    if (typeof s === "string") {
+      return `<li>${escapeHtml(s)}</li>`;
+    }
+
+    // New format: { text, image }
+    const img = s.image
+      ? `<img src="${escapeHtml(s.image)}" alt="" loading="lazy" />`
+      : "";
+
+    return `
+      <li class="step">
+        <div class="step-text">${escapeHtml(s.text || "")}</div>
+        ${img}
+      </li>
+    `;
+  }).join("");
+}
 
   const renderParts = () => {
     const parts = Array.isArray(recipe.parts) ? recipe.parts : [];
@@ -233,9 +253,8 @@ function renderRecipe(recipe) {
           .map((i) => `<li>${escapeHtml(i)}</li>`)
           .join("");
 
-        const stps = (p.steps || [])
-          .map((s) => `<li>${escapeHtml(s)}</li>`)
-          .join("");
+        const stps = renderSteps(p.steps || []);
+
 
         return `
       <section style="margin-top:${idx === 0 ? "0" : "16px"};">
