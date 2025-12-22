@@ -24,6 +24,30 @@
     ],
     "notes": "Borðað með miklu hlynsírópi."
   },  {
+    "id": "drommekage",
+    "title": "Sjónvarpskaka",
+    "category": "kaffitimi",
+    "tags": ["kaffitími","kaka"],
+    "time_minutes": 35,
+    "servings": 4,
+    "description": "Klassískar amerískar pönnukökur",
+    "Botn": [
+      "4 stk. egg",
+      "300 gr sykur",
+      "2 tsk. vanilludropar",
+      "250 gr. hveiti",
+      "3 tsk. lyftiduft",
+      "2 dl. mjólk",
+      "50 gr. smjör"
+    ],
+    "Kókostoppur": [
+      "170 gr. smjör", 
+      "340 gr. púðursykur",
+      "120 ml. mjólk ",
+      "250 gr. kókosmjöl"
+    ],
+    "notes": "Borðað með miklu hlynsírópi."
+  },  {
     "id": "butter-chicken",
     "title": "Quick Butter Chicken",
     "category": "Dinner",
