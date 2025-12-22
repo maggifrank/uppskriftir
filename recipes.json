@@ -303,5 +303,116 @@
       }
     ],
     "notes": "Slef, slef, nammi namm"
+  },
+  {
+    "id": "braudbollur",
+    "title": "Brauðbollur",
+    "category": "kvöldmatur",
+    "tags": ["kvöldmatur", "brauð"],
+    "time_minutes": 110,
+    "servings": 6,
+    "description": "Gott sem hamborgarabrayð",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Pottur", "Skál", "Vigt", "Mæliskeiðar"]
+      },
+      {
+        "title": "Kjúklingaborgari",
+        "ingredients": [
+          "50 gr ger",
+          "25 gr smjör",
+          "250 ml mjólk",
+          "0,5 tsk salt",
+          "0,5 tsk sykur",
+          "550 gr hveiti",
+          "1 stk egg"
+        ],
+        "steps": [
+          "Setja ger í skál",
+          "Bræða smjör og hella mjólk saman við, þarf að ná stofuhita.",
+          "Hella vökvanum yfir gerið og hræra þar til gerið leysist upp.",
+          "Bæta restinni af þurrefnunum við og hnoða deigið í 10 – 15 mín",
+          "Láta hefast í 40 mín",
+          "Hnoða deigið og gera litlar kúlur. 6 stk rúmlega 100gr stykkið",
+          "Raða á ofnplötu og ýta létt á bollurnar svo þær fletjist aðeins út",
+          "Láta hefast í 30 mín",
+          "Píska egg og pensla því yfir bollurnar",
+          "Bakað í 10 mín við 225°C",
+          "Leyfa bollunum að kólna áður en þær eru skornar í tvennt"
+        ]
+      }
+    ],
+    "notes": "Setja eitthvað sniðugt hér þegar þér dettur það í hug"
+  },
+  {
+    "id": "grjonagrautur",
+    "title": "Grjónagrautur",
+    "category": "kvöldmatur",
+    "tags": ["kvöldmatur", "grautur"],
+    "time_minutes": 95,
+    "servings": 4,
+    "description": "Fáránlega einfalt, ef það gleymist ekki að kveikja á ofninum",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Stórt eldfastmót", "Álpappír", "Mæliskeiðar"]
+      },
+      {
+        "title": "Grjónagrautur",
+        "ingredients": [
+          "2.5 dl grautargrjón",
+          "12.5 dl Nýmjólk",
+          "Salt Oggupons",
+          "Hvítt súkkulaði Strá yfir eftir smekk",
+          "Smjörklípur Strá yfir eftir smekk",
+          "1 msk vanillusykur"
+        ],
+        "steps": [
+          "Grjónum stráð í botnin á eldföstumóti",
+          "Mjólk hellt yfir",
+          "Hvíta súkkulaðinu stráð jafnt yfir",
+          "Saltað eftir smekk",
+          "Smjörklípur settar ofaná",
+          "Breiða álpappír yfir eldfastamótið",
+          "Setja inn í ofn á 175°C í 90mín",
+          "Hræra í grautnum eftir 90 mín í ofninum"
+        ]
+      }
+    ],
+    "notes": "Must að vera með lifrapylsu og rúsinur"
+  },
+  {
+    "id": "is",
+    "title": "Ís",
+    "category": "eftirréttur",
+    "tags": ["eftirréttur", "ÍS"],
+    "time_minutes": 0,
+    "servings": 0,
+    "description": "Jólaísinn",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Handþeytari", "Skál", "Vigt"]
+      },
+      {
+        "title": "Ís",
+        "ingredients": [
+          "3 stk Eggjarauður",
+          "1 stk Egg",
+          "100 gr Sykur",
+          "1/2 l Rjómi"
+        ],
+        "steps": [
+          "Þeytið eggjarauður, egg og sykur mjög vel saman",
+          "Þeytið rjómann og blandið honum gætilega saman við eggjablönduna",
+          "Setjið ísinn í fryst"
+        ]
+      }
+    ],
+    "notes": "Setja eitthvað sniðugt hér þegar þér dettur það í hug"
   }
 ]
