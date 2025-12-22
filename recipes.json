@@ -227,5 +227,43 @@
       }
     ],
     "notes": "Gott með smjöri og ost."
+  },
+  {
+    "id": "bananabraud",
+    "title": "Bananabrauð",
+    "category": "kaffitimi",
+    "tags": ["kaffitími", "brauð"],
+    "time_minutes": 60,
+    "servings": 0,
+    "description": "Besta bananabrauð sem þú hefur smakkað",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Brauðform", "Skál", "Handþeytari", "Mæliskeiðar"]
+      },
+      {
+        "title": "Bananabrauð",
+        "ingredients": [
+          "3 stk. bananar (því eldri og brúnni því betra. Ef bananarnir eru farnir að skreppa saman er gott að bæta við fleiri",
+          "2 stk. egg",
+          "2.5 dl. sykur",
+          "5 dl. hveiti",
+          "1 tsk. lyftiduft"
+        ],
+        "steps": [
+          {
+            "image": "img/bananabraud/1.jpg"
+          },
+          "Mauka banana í skál",
+          "Þurrefnum blandað saman við",
+          "Eggjum bætt við",
+          "Smyrja brauðform með smjöri",
+          "Hella deginu í formið",
+          "Baka við 175°C í 50 mín"
+        ]
+      }
+    ],
+    "notes": "Gott með smjöri og ost."
   }
 ]
