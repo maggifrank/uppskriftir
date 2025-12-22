@@ -74,5 +74,43 @@
       }
     ],
     "notes": "Borðað með ííííískaldri mjólk."
+  },
+  {
+    "id": "braudhleifur",
+    "title": "Braudhleifur",
+    "category": "kaffitimi",
+    "tags": ["kaffitími", "brauð"],
+    "time_minutes": 240,
+    "servings": 0,
+    "description": "Brød, brød, brød jeg vil brød",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Brauðform", "Skál", "Sigti", "Sleif"]
+      },
+      {
+        "title": "Brauðhleifur",
+        "ingredients": [
+          "700 gr. hveiti",
+          "10 gr sykur",
+          "8.5 gr. ger",
+          "14 gr. salt",
+          "490 gr. vatn"
+        ],
+        "steps": [    
+    "Þurrefnum blandað í skál (muna að sigta hveiti)",
+    "Vatni hellt rólega yfir og hrært með sleif",
+    "Deigsullinu skellt á 'hveitað' yfirborð",
+    "Hnoða hnoða hnoða þar til deigið er orðið falleg kúla",
+    "Setja smá olíu í skál og deigið látið hefast þar í 90 mín",
+    "Deigið tekið úr skálinni og brotið saman svo það passi í brauðform",
+    "Látið hefast í brauðforminu í 60 mín",
+    "Strá smá hveiti yfir og rista í með hníf",
+    "Baka í 15 mín við 210°C og svo 45 mín við 175°C"
+        ]
+      }
+    ],
+    "notes": "Good shit brauð"
   }
 ]
