@@ -34,6 +34,11 @@
     "description": "En klassiske fjernsynskage",
     "parts": [
       {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Hrærivél", "Skálar", "Pottur", "Vigt", "Sigti"]
+      },
+      {
         "title": "Botn",
         "ingredients": [
           "4 stk. egg",

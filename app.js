@@ -191,29 +191,49 @@ function renderRecipe(recipe){
     `;
   };
 
-  const renderParts = () => {
-    const parts = Array.isArray(recipe.parts) ? recipe.parts : [];
-    return parts.map((p, idx) => {
-      const ings = (p.ingredients || []).map(i => `<li>${escapeHtml(i)}</li>`).join("");
-      const stps = (p.steps || []).map(s => `<li>${escapeHtml(s)}</li>`).join("");
+const renderParts = () => {
+  const parts = Array.isArray(recipe.parts) ? recipe.parts : [];
+
+  return parts.map((p, idx) => {
+    // Equipment / prep block
+    if (p.type === "equipment") {
+      const items = (p.items || [])
+        .map(i => `<li>${escapeHtml(i)}</li>`)
+        .join("");
 
       return `
         <section style="margin-top:${idx === 0 ? "0" : "16px"};">
-          <h3>${escapeHtml(p.title || `Part ${idx+1}`)}</h3>
-          <div class="cols">
-            <section>
-              <h3>Innihald</h3>
-              <ul>${ings}</ul>
-            </section>
-            <section>
-              <h3>Skref</h3>
-              <ol>${stps}</ol>
-            </section>
-          </div>
+          <h3>${escapeHtml(p.title || "Áhöld")}</h3>
+          <ul>${items}</ul>
         </section>
       `;
-    }).join("");
-  };
+    }
+
+    // Normal recipe part
+    const ings = (p.ingredients || [])
+      .map(i => `<li>${escapeHtml(i)}</li>`).join("");
+
+    const stps = (p.steps || [])
+      .map(s => `<li>${escapeHtml(s)}</li>`).join("");
+
+    return `
+      <section style="margin-top:${idx === 0 ? "0" : "16px"};">
+        <h3>${escapeHtml(p.title || `Part ${idx+1}`)}</h3>
+        <div class="cols">
+          <section>
+            <h4>Innihald</h4>
+            <ul>${ings}</ul>
+          </section>
+          <section>
+            <h4>Skref</h4>
+            <ol>${stps}</ol>
+          </section>
+        </div>
+      </section>
+    `;
+  }).join("");
+};
+
 
   const notes = recipe.notes
     ? `<div class="note"><strong>Note:</strong> ${escapeHtml(recipe.notes)}</div>`
