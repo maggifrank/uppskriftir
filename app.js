@@ -170,35 +170,71 @@ function renderRecipe(recipe){
 
   const tags = (recipe.tags || []).map(pill).join(" ");
 
-  const ingredients = (recipe.ingredients || [])
-    .map(i => `<li>${escapeHtml(i)}</li>`).join("");
+  const renderSingle = () => {
+    const ingredients = (recipe.ingredients || [])
+      .map(i => `<li>${escapeHtml(i)}</li>`).join("");
 
-  const steps = (recipe.steps || [])
-    .map(s => `<li>${escapeHtml(s)}</li>`).join("");
+    const steps = (recipe.steps || [])
+      .map(s => `<li>${escapeHtml(s)}</li>`).join("");
+
+    return `
+      <div class="cols">
+        <section>
+          <h3>Ingredients</h3>
+          <ul>${ingredients}</ul>
+        </section>
+        <section>
+          <h3>Steps</h3>
+          <ol>${steps}</ol>
+        </section>
+      </div>
+    `;
+  };
+
+  const renderParts = () => {
+    const parts = Array.isArray(recipe.parts) ? recipe.parts : [];
+    return parts.map((p, idx) => {
+      const ings = (p.ingredients || []).map(i => `<li>${escapeHtml(i)}</li>`).join("");
+      const stps = (p.steps || []).map(s => `<li>${escapeHtml(s)}</li>`).join("");
+
+      return `
+        <section style="margin-top:${idx === 0 ? "0" : "16px"};">
+          <h3>${escapeHtml(p.title || `Part ${idx+1}`)}</h3>
+          <div class="cols">
+            <section>
+              <h3>Ingredients</h3>
+              <ul>${ings}</ul>
+            </section>
+            <section>
+              <h3>Steps</h3>
+              <ol>${stps}</ol>
+            </section>
+          </div>
+        </section>
+      `;
+    }).join("");
+  };
 
   const notes = recipe.notes
     ? `<div class="note"><strong>Note:</strong> ${escapeHtml(recipe.notes)}</div>`
     : "";
 
+  const body = (Array.isArray(recipe.parts) && recipe.parts.length)
+    ? renderParts()
+    : renderSingle();
+
   $("recipeArticle").innerHTML = `
     <h2>${escapeHtml(recipe.title)}</h2>
-    <div class="hero">${meta}${tags ? `<span class="pill">Tags</span>${tags}` : ""}</div>
-    ${recipe.description ? `<div class="desc">${escapeHtml(recipe.description)}</div>` : ""}
-
-    <div class="cols">
-      <section>
-        <h3>Ingredients</h3>
-        <ul>${ingredients}</ul>
-      </section>
-      <section>
-        <h3>Steps</h3>
-        <ol>${steps}</ol>
-      </section>
+    <div class="hero">
+      ${meta}
+      ${tags ? `<span class="pill">Tags</span>${tags}` : ""}
     </div>
-
+    ${recipe.description ? `<div class="desc">${escapeHtml(recipe.description)}</div>` : ""}
+    ${body}
     ${notes}
   `;
 }
+
 
 function parseRoute(){
   const hash = window.location.hash || "#/";
