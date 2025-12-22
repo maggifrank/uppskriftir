@@ -265,5 +265,43 @@
       }
     ],
     "notes": "Gott með smjöri og ost."
+  },
+  {
+    "id": "kjuklingaborgari",
+    "title": "Kjúklingaborgari",
+    "category": "kvöldmatur",
+    "tags": ["kvöldmatur", "kjúklingur"],
+    "time_minutes": 40,
+    "servings": 0,
+    "description": "Solid kjúklingaborgarar",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Panna", "Skál", "Eldfast mót", "Vigt", "Mæliskeiðar"]
+      },
+      {
+        "title": "Kjúklingaborgari",
+        "ingredients": [
+          "Kjúklingalæri 1 stk = 1 borgara (you do you)",
+          "200 gr Kornflex",
+          "150 gr sýrður rjómi",
+          "1-2 msk Sriracha Má auðvitað vera meira",
+          "2 tsk hveiti",
+          "Olía til steikingar 3-4 msk voru fínar fyrir hver session á pönnunni",
+          "salt og pipar + önnur krydd"
+        ],
+        "steps": [
+          "Blandið saman í skál, sýrða rjómanum, sriracha sósunni, kryddi og hveiti",
+          "Þerrið vel af kjúklingnum",
+          "Baðið í chilli sósunni",
+          "Veltið upp úr muldu kornflexi",
+          "Hita vel olíu á pönnu",
+          "Steikja á pönnu í ca 2 mín á hvorri hlið",
+          "Raða í eldfast mót og bakað í ofni á 180°C í ca 20 mín"
+        ]
+      }
+    ],
+    "notes": "Slef, slef, nammi namm"
   }
 ]
