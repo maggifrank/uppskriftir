@@ -156,7 +156,7 @@ function renderList() {
 function showListView() {
   $("listView").hidden = false;
   $("recipeView").hidden = true;
-  document.title = "My Cookbook";
+  document.title = "Uppskriftir";
 }
 
 function showRecipeView() {
