@@ -414,5 +414,43 @@
       }
     ],
     "notes": "Setja eitthvað sniðugt hér þegar þér dettur það í hug"
+  },
+  {
+    "id": "partybollur",
+    "title": "Partýbollur",
+    "category": "Kaffitími",
+    "tags": ["kaffitími"],
+    "time_minutes": 30,
+    "servings": 0,
+    "description": "Det er ikke en fest når du har ikke festboller!",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Skál", "Vigt", "Þolinmæði"]
+      },
+      {
+        "title": "Partýbollur",
+        "ingredients": [
+          "500 gr. Hakk",
+          "1/2 pakki ritz kex",
+          "1/2 pakki púrrulaukssúpa"
+        ],
+        "steps": [
+          "Ritz kexið mulið niður mjög smátt",
+          "Öllu blandað saman í skál og hnoooooðað mjög mikið þar til allt er orðið vel blandað saman",
+          "Búa til litlar bollur, ca. 15 gr. og raða á ofnplötu eða eldfast mót.",
+          "Baka við 220°C í 10-15 mínútur"
+        ]
+      },
+      {
+        "title": "Partýbollusósan",
+        "ingredients": ["Heinz chilli tómatsósa", "Ömmu drottningarsulta"],
+        "steps": [
+          "Tómatsósu og sultu blandað saman þar til þú ert sátt/ur við áferð og bragð"
+        ]
+      }
+    ],
+    "notes": "Hægt að gera snemma og hita svo upp þegar á að fara að borða."
   }
 ]
