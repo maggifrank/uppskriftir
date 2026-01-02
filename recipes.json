@@ -452,5 +452,39 @@
       }
     ],
     "notes": "Hægt að gera snemma og hita svo upp þegar á að fara að borða."
+  },
+  {
+    "id": "vegan-ponnukokur",
+    "title": "Vegan pönnukökur",
+    "category": "Kaffitími",
+    "tags": ["kaffitími", "vegan"],
+    "time_minutes": 30,
+    "servings": 0,
+    "description": "Furðulega mjög svipaðar og líkamsvessa pönnukökur",
+    "parts": [
+      {
+        "type": "equipment",
+        "title": "Áhöld",
+        "items": ["Skál", "Vigt", "Þolinmæði"]
+      },
+      {
+        "title": "Vegan pönnukökur",
+        "ingredients": [
+          "8 dl hveiti",
+          "1 tsk lyftiduft",
+          "1 tsk salt",
+          "1 tsk vanilludropar",
+          "2,5 dl eplamauk",
+          "100 gr brætt smjörlíki",
+          "8-10 dl haframjólk"
+        ],
+        "steps": [
+          "Blandið þurrefnum saman í skál.",
+          "Bætið við mjólkinni, brædda smjörlíkinu, eplamaukinu og vanilludropunum.",
+          "Steikið á háum hita upp úr smá smjörlíki."
+        ]
+      }
+    ],
+    "notes": "Án djóks..."
   }
 ]
