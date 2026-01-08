@@ -304,18 +304,18 @@ h2 {
   color: var(--text);
   font-size: 12px;
 }
-.recipe .step{
+.recipe .step {
   margin: 10px 0;
 }
 
-.recipe .step img{
-  display:block;
+.recipe .step img {
+  display: block;
   margin-top: 8px;
   max-width: 100%;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.2);
 }
-.recipe .step-text{
+.recipe .step-text {
   line-height: 1.5;
 }
