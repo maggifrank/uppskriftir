@@ -12,6 +12,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -23,6 +24,8 @@ body {
   color: var(--text);
   min-height: 100vh;
 }
+
+/* ─── HEADER ─────────────────────────────────────────────── */
 
 .header {
   width: min(1100px, 100%);
@@ -37,6 +40,7 @@ body {
   gap: 12px;
   align-items: center;
 }
+
 .logo {
   width: 44px;
   height: 44px;
@@ -46,11 +50,14 @@ body {
   background: rgba(122, 162, 255, 0.18);
   border: 1px solid rgba(122, 162, 255, 0.35);
   font-size: 22px;
+  flex-shrink: 0;
 }
+
 h1 {
   margin: 0;
   font-size: clamp(22px, 3vw, 34px);
 }
+
 .sub {
   margin: 4px 0 0;
   color: var(--muted);
@@ -79,6 +86,7 @@ h1 {
   flex: 1;
   min-width: 240px;
 }
+
 .select {
   min-width: 190px;
 }
@@ -94,12 +102,15 @@ h1 {
   color: #0b1020;
   font-weight: 800;
 }
+
 .btn.secondary {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text);
   font-weight: 700;
 }
+
+/* ─── MAIN ───────────────────────────────────────────────── */
 
 .main {
   width: min(1100px, 100%);
@@ -115,6 +126,8 @@ h1 {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
 }
 
+/* ─── LIST VIEW ──────────────────────────────────────────── */
+
 .list-header {
   display: flex;
   justify-content: space-between;
@@ -123,10 +136,12 @@ h1 {
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
+
 h2 {
   margin: 0;
   font-size: 18px;
 }
+
 .muted {
   color: var(--muted);
   font-size: 13px;
@@ -138,6 +153,7 @@ h2 {
   gap: 8px;
   margin: 10px 0 14px;
 }
+
 .chip {
   padding: 6px 10px;
   border-radius: 999px;
@@ -147,6 +163,7 @@ h2 {
   font-size: 12px;
   cursor: pointer;
 }
+
 .chip.active {
   border-color: rgba(122, 162, 255, 0.55);
   background: rgba(122, 162, 255, 0.2);
@@ -157,11 +174,13 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
+
 @media (max-width: 980px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
@@ -179,15 +198,18 @@ h2 {
   gap: 10px;
   transition: transform 0.06s ease, border-color 0.15s ease;
 }
+
 .cardlink:hover {
   transform: translateY(-1px);
   border-color: rgba(122, 162, 255, 0.45);
 }
+
 .title {
   font-weight: 900;
   font-size: 16px;
   line-height: 1.15;
 }
+
 .meta {
   display: flex;
   gap: 8px;
@@ -195,6 +217,7 @@ h2 {
   color: var(--muted);
   font-size: 12px;
 }
+
 .pill {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.18);
@@ -209,10 +232,13 @@ h2 {
   padding: 16px;
   background: rgba(0, 0, 0, 0.14);
 }
+
 .empty-title {
   font-weight: 900;
   margin-bottom: 4px;
 }
+
+/* ─── RECIPE VIEW ────────────────────────────────────────── */
 
 .recipe-top {
   display: flex;
@@ -220,6 +246,7 @@ h2 {
   align-items: center;
   margin-bottom: 12px;
 }
+
 .spacer {
   flex: 1;
 }
@@ -227,25 +254,37 @@ h2 {
 .recipe h2 {
   margin: 6px 0 10px;
 }
+
 .recipe .hero {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
   margin: 8px 0 14px;
 }
+
+.recipe .hero-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .recipe .hero .pill {
   font-size: 12px;
 }
+
 .recipe .desc {
   color: var(--muted);
   margin: 8px 0 14px;
   line-height: 1.5;
 }
+
 .recipe .cols {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
   gap: 14px;
 }
+
 @media (max-width: 900px) {
   .recipe .cols {
     grid-template-columns: 1fr;
@@ -257,9 +296,19 @@ h2 {
   margin: 8px 0 0 18px;
   line-height: 1.55;
 }
+
 .recipe li {
   margin: 6px 0;
 }
+
+.recipe h4 {
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .recipe .note {
   margin-top: 14px;
   color: var(--muted);
@@ -268,27 +317,6 @@ h2 {
   padding-left: 10px;
 }
 
-.footer {
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 0 18px 22px;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 12px;
-  text-align: center;
-}
-
-.mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
-}
-
-.recipe h4 {
-  margin: 6px 0 6px;
-  font-size: 13px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .recipe .chips {
   display: flex;
   flex-wrap: wrap;
@@ -303,7 +331,9 @@ h2 {
   background: rgba(0, 0, 0, 0.18);
   color: var(--text);
   font-size: 12px;
+  cursor: default;
 }
+
 .recipe .step {
   margin: 10px 0;
 }
@@ -316,6 +346,87 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.2);
 }
+
 .recipe .step-text {
   line-height: 1.5;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+
+.footer {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 18px 22px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  text-align: center;
+}
+
+.footer img {
+  max-width: 120px;
+  height: auto;
+  opacity: 0.6;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --card: #fff;
+    --card2: #fff;
+    --border: #ddd;
+    --text: #111;
+    --muted: #555;
+    --accent: #3355cc;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  .header,
+  .recipe-top,
+  .footer {
+    display: none;
+  }
+
+  .main {
+    padding: 0;
+    width: 100%;
+  }
+
+  .card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .pill {
+    border: 1px solid #ccc;
+    background: #f4f4f4;
+    color: #111;
+  }
+
+  .recipe .note {
+    border-left-color: #3355cc;
+    color: #555;
+  }
+
+  .cardlink,
+  .chip,
+  .btn {
+    display: none;
+  }
+
+  .recipe .step img {
+    max-width: 60%;
+    border: 1px solid #ddd;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
