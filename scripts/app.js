@@ -43,14 +43,11 @@ function pill(text) {
 
 // ─── 2. DATA LAYER (SUPABASE) ────────────────────────────────
 
-// Supabase JS v2 loaded via CDN in index.html
-let supabase;
-
 let RECIPES = [];
 let activeTag = null;
 
 async function loadRecipes() {
-  const { data, error } = await supabase
+  const { data, error } = await window._sb
     .from("recipes")
     .select("data")
     .order("title");
@@ -319,8 +316,8 @@ function bindUI() {
 }
 
 (async function init() {
-  const { createClient } = supabaseJs;
-  supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  window._sb = sb;
 
   await loadRecipes();
   populateCategorySelect();

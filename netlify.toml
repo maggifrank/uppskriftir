@@ -28,7 +28,7 @@
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
     # Single line — multiline CSP strings crash netlify dev on Windows
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; img-src 'self' data: https://*.supabase.co; frame-ancestors 'none';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321 https://www.google-analytics.com; img-src 'self' data: https://*.supabase.co; frame-ancestors 'none';"
 
 # ── Cache: HTML — always revalidate ──────────────────────────
 # HTML is short-lived so visitors always get the latest recipes.

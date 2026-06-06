@@ -1,0 +1,1 @@
+drop trigger if exists enforce_admin_allowlist on auth.users;
