@@ -1,0 +1,73 @@
+# ============================================================
+# netlify.toml — Uppskriftir
+# Handles security headers and caching at the CDN level.
+# ============================================================
+
+# ── Build settings ───────────────────────────────────────────
+[build]
+  publish = "."        # adjust if you have a build step (e.g. "dist")
+
+# ── Security headers (applied to every response) ─────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+
+    # Prevent clickjacking
+    X-Frame-Options = "DENY"
+
+    # Prevent MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # Only send referrer on same-origin requests
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Limit browser features
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+    # HSTS — tell browsers to always use HTTPS (1 year)
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Single line — multiline CSP strings crash netlify dev on Windows
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; img-src 'self' data: https://*.supabase.co; frame-ancestors 'none';"
+
+# ── Cache: HTML — always revalidate ──────────────────────────
+# HTML is short-lived so visitors always get the latest recipes.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Cache: JS and CSS — long cache + immutable ───────────────
+# If you add a build step with content hashing, these can be
+# safely cached forever. Without hashing, keep it shorter.
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+# ── Cache: images in /img/ (local, in repo) ──────────────────
+# These rarely change so cache for 7 days.
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# ── Cache: JSON data files ────────────────────────────────────
+# recipes.json is only used as a migration source now, but
+# keep it short just in case.
+[[headers]]
+  for = "/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Redirects ─────────────────────────────────────────────────
+# Redirect /admin to /admin.html for cleaner URLs
+[[redirects]]
+  from = "/admin"
+  to   = "/admin.html"
+  status = 200

@@ -65,7 +65,6 @@
           "120 ml. mjólk ",
           "250 gr. kókosmjöl"
         ],
-
         "steps": [
           "Bræðið smjör, púðursykur og mjólk saman í potti við meðalhita. Bætið kókosmjölinu saman við þegar bráðið og blandið vel.",
           "Þegar kakan er tilbúin hellið þið blöndunni jafnt yfir hana og dreifið úr með spaða og bakið áfram í um 10 mínútur eða þar til kókostoppurinn fer að gyllast.",
@@ -207,22 +206,10 @@
           "6 dl. nýmjólk"
         ],
         "steps": [
-          {
-            "text": "Þurrefnunum blandað saman í skál",
-            "image": "img/skonsur/1.jpg"
-          },
-          {
-            "text": "Vökvanum blandað saman við ",
-            "image": ""
-          },
-          {
-            "text": "Steikt á pönnu við miðlungshita þar til skonsan er þakin bólum ",
-            "image": "img/skonsur/2.jpg"
-          },
-          {
-            "text": "Steikt í smá á bóluhliðinni",
-            "image": "img/skonsur/3.jpg"
-          }
+          { "text": "Þurrefnunum blandað saman í skál", "image": "img/skonsur/1.jpg" },
+          { "text": "Vökvanum blandað saman við", "image": "" },
+          { "text": "Steikt á pönnu við miðlungshita þar til skonsan er þakin bólum", "image": "img/skonsur/2.jpg" },
+          { "text": "Steikt í smá á bóluhliðinni", "image": "img/skonsur/3.jpg" }
         ]
       }
     ],
@@ -252,9 +239,7 @@
           "1 tsk. lyftiduft"
         ],
         "steps": [
-          {
-            "image": "img/bananabraud/1.jpg"
-          },
+          { "image": "img/bananabraud/1.jpg", "text": "" },
           "Mauka banana í skál",
           "Þurrefnum blandað saman við",
           "Eggjum bætt við",
@@ -319,7 +304,7 @@
         "items": ["Pottur", "Skál", "Vigt", "Mæliskeiðar"]
       },
       {
-        "title": "Kjúklingaborgari",
+        "title": "Brauðbollur",
         "ingredients": [
           "50 gr ger",
           "25 gr smjör",

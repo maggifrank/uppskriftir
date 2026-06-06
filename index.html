@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="is">
   <head>
     <!-- Google tag (gtag.js) -->
     <script
@@ -12,10 +12,8 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-F9KQ57R3FP");
     </script>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Uppskriftir</title>
@@ -24,7 +22,7 @@
   <body>
     <header class="header">
       <div class="brand">
-        <a href="index.html"> <div class="logo">🍲</div></a>
+        <a href="index.html"><div class="logo">🍲</div></a>
         <div>
           <h1>Uppskriftir</h1>
           <p class="sub">
@@ -32,7 +30,6 @@
           </p>
         </div>
       </div>
-
       <div class="top-actions">
         <input
           id="search"
@@ -43,7 +40,7 @@
         <select id="category" class="select">
           <option value="all">Allir flokkar</option>
         </select>
-        <button id="random" class="btn secondary" title="Surprise me">
+        <button id="random" class="btn secondary" title="Kasta teningnum">
           Random
         </button>
       </div>
@@ -56,9 +53,7 @@
           <h2 id="listTitle">Uppskriftir</h2>
           <div class="muted" id="resultCount"></div>
         </div>
-
         <div id="chips" class="chips"></div>
-
         <div id="grid" class="grid" aria-live="polite"></div>
         <div id="empty" class="empty" hidden>
           <div class="empty-title">Engar uppskriftir fundust.</div>
@@ -75,15 +70,20 @@
           <button id="copyLink" class="btn secondary">Afrita hlekk</button>
           <button id="print" class="btn">Prenta</button>
         </div>
-
         <article class="recipe" id="recipeArticle"></article>
       </section>
     </main>
 
     <footer class="footer">
-      <a href="index.html"><img src="/img/franklin-logo-black.png" /></a>
+      <a href="index.html"
+        ><img src="/img/franklin-logo-black.png" alt="Franklin logo"
+      /></a>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>const supabaseJs = supabase;</script>
+    <script src="env.js"></script>
+    <script src="supabase-config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
