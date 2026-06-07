@@ -430,3 +430,156 @@ h2 {
     color: inherit;
   }
 }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+
+.footer {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 18px 22px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  text-align: center;
+}
+
+.footer img {
+  max-width: 120px;
+  height: auto;
+  opacity: 0.6;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --card: #fff;
+    --card2: #fff;
+    --border: #ddd;
+    --text: #111;
+    --muted: #555;
+    --accent: #3355cc;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  .header,
+  .recipe-top,
+  .footer {
+    display: none;
+  }
+
+  .main {
+    padding: 0;
+    width: 100%;
+  }
+
+  .card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .pill {
+    border: 1px solid #ccc;
+    background: #f4f4f4;
+    color: #111;
+  }
+
+  .recipe .note {
+    border-left-color: #3355cc;
+    color: #555;
+  }
+
+  .cardlink,
+  .chip,
+  .btn {
+    display: none;
+  }
+
+  .recipe .step img {
+    max-width: 60%;
+    border: 1px solid #ddd;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+/* ─── COVER IMAGES ───────────────────────────────────────── */
+
+/* Card thumbnail in the recipe grid */
+.card-cover {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  background: rgba(0,0,0,0.2);
+}
+
+/* Full-width hero image on the recipe detail page */
+.recipe-cover {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+  margin-bottom: 16px;
+  background: rgba(0,0,0,0.2);
+}
+
+@media print {
+  .recipe-cover {
+    max-height: 200px;
+    border: 1px solid #ddd;
+  }
+  .card-cover { display: none; }
+}
+
+/* ─── HAMBURGER MENU ─────────────────────────────────────── */
+
+.menu-wrap {
+  position: relative;
+}
+
+.menu-btn {
+  font-size: 18px;
+  padding: 8px 14px;
+  line-height: 1;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #151c35;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.menu-dropdown a {
+  display: block;
+  padding: 11px 16px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.12s;
+}
+
+.menu-dropdown a:hover {
+  background: rgba(122,162,255,0.12);
+}
+
+@media print {
+  .menu-wrap { display: none; }
+}

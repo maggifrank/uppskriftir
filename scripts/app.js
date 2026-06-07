@@ -2,7 +2,7 @@
    UPPSKRIFTIR — app.js
    Sections:
      1. Utils
-     2. Data layer
+     2. Data layer  (Supabase)
      3. Render helpers
      4. List view
      5. Recipe view
@@ -33,14 +33,7 @@ function formatTime(mins) {
 function escapeHtml(str) {
   return (str ?? "").replace(
     /[&<>"']/g,
-    (m) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;",
-      }[m])
+    (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])
   );
 }
 
@@ -48,14 +41,24 @@ function pill(text) {
   return `<span class="pill">${escapeHtml(text)}</span>`;
 }
 
-// ─── 2. DATA LAYER ───────────────────────────────────────────
+// ─── 2. DATA LAYER (SUPABASE) ────────────────────────────────
 
 let RECIPES = [];
 let activeTag = null;
 
 async function loadRecipes() {
-  const res = await fetch("recipes.json", { cache: "no-store" });
-  RECIPES = await res.json();
+  const { data, error } = await window._sb
+    .from("recipes")
+    .select("data")
+    .order("title");
+
+  if (error) {
+    console.error("Failed to load recipes:", error.message);
+    return;
+  }
+
+  // Each row's `data` column is the full recipe object
+  RECIPES = (data || []).map((row) => row.data);
   RECIPES.sort((a, b) => a.title.localeCompare(b.title, "is"));
 }
 
@@ -80,30 +83,20 @@ function computeAllTags() {
     .map(([tag]) => tag);
 }
 
-/**
- * Collect all searchable text from a recipe, including ingredients
- * inside `parts` arrays (not just top-level `ingredients`).
- */
 function recipeSearchText(r) {
   const parts = Array.isArray(r.parts) ? r.parts : [];
-  const partsIngredients = parts
-    .flatMap((p) => p.ingredients || [])
-    .join(" ");
+  const partsIngredients = parts.flatMap((p) => p.ingredients || []).join(" ");
   const partsSteps = parts
     .flatMap((p) =>
       (p.steps || []).map((s) => (typeof s === "string" ? s : s.text || ""))
     )
     .join(" ");
-
   return [
-    r.title,
-    r.category,
+    r.title, r.category,
     (r.tags || []).join(" "),
     (r.ingredients || []).join(" "),
-    partsIngredients,
-    partsSteps,
-    r.description || "",
-    r.notes || "",
+    partsIngredients, partsSteps,
+    r.description || "", r.notes || "",
   ].join(" ");
 }
 
@@ -111,7 +104,6 @@ function filterRecipes() {
   const q = $("search").value.trim();
   const cat = $("category").value;
   const nq = normalizeText(q);
-
   return RECIPES.filter((r) => {
     if (cat !== "all" && r.category !== cat) return false;
     if (activeTag && !(r.tags || []).includes(activeTag)) return false;
@@ -122,93 +114,48 @@ function filterRecipes() {
 
 // ─── 3. RENDER HELPERS ───────────────────────────────────────
 
-/**
- * Render a steps array that may contain either plain strings
- * or objects with { text, image }.
- */
 function renderSteps(steps = []) {
-  return steps
-    .map((s) => {
-      if (typeof s === "string") {
-        return `<li>${escapeHtml(s)}</li>`;
-      }
-      const img = s.image
-        ? `<img src="${escapeHtml(s.image)}" alt="" loading="lazy" />`
-        : "";
-      return `
-        <li class="step">
-          <div class="step-text">${escapeHtml(s.text || "")}</div>
-          ${img}
-        </li>`;
-    })
-    .join("");
+  return steps.map((s) => {
+    if (typeof s === "string") return `<li>${escapeHtml(s)}</li>`;
+    const img = s.image
+      ? `<img src="${escapeHtml(s.image)}" alt="" loading="lazy" />`
+      : "";
+    return `<li class="step"><div class="step-text">${escapeHtml(s.text || "")}</div>${img}</li>`;
+  }).join("");
 }
 
-/**
- * Render recipes that use the simple flat ingredients/steps format.
- */
 function renderSingleRecipe(recipe) {
   const ingredients = (recipe.ingredients || [])
-    .map((i) => `<li>${escapeHtml(i)}</li>`)
-    .join("");
-
+    .map((i) => `<li>${escapeHtml(i)}</li>`).join("");
   const steps = renderSteps(recipe.steps || []);
-
   return `
     <div class="cols">
-      <section>
-        <h4>Innihald</h4>
-        <ul>${ingredients}</ul>
-      </section>
-      <section>
-        <h4>Skref</h4>
-        <ol>${steps}</ol>
-      </section>
+      <section><h4>Innihald</h4><ul>${ingredients}</ul></section>
+      <section><h4>Skref</h4><ol>${steps}</ol></section>
     </div>`;
 }
 
-/**
- * Render recipes that use the multi-part format.
- */
 function renderPartsRecipe(recipe) {
-  return (recipe.parts || [])
-    .map((p, idx) => {
-      const marginTop = idx === 0 ? "0" : "20px";
-
-      // Equipment / tools block
-      if (p.type === "equipment") {
-        const items = (p.items || [])
-          .map((i) => `<span class="chip">${escapeHtml(i)}</span>`)
-          .join("");
-        return `
-          <section style="margin-top:${marginTop}">
-            <h3>${escapeHtml(p.title || "Áhöld")}</h3>
-            <div class="chips">${items}</div>
-          </section>`;
-      }
-
-      // Normal recipe part
-      const ings = (p.ingredients || [])
-        .map((i) => `<li>${escapeHtml(i)}</li>`)
-        .join("");
-      const stps = renderSteps(p.steps || []);
-
-      return `
-        <section style="margin-top:${marginTop}">
-          <h3>${escapeHtml(p.title || `Hluti ${idx + 1}`)}</h3>
-          <div class="cols">
-            <section>
-              <h4>Innihald</h4>
-              <ul>${ings}</ul>
-            </section>
-            <section>
-              <h4>Skref</h4>
-              <ol>${stps}</ol>
-            </section>
-          </div>
-        </section>`;
-    })
-    .join("");
+  return (recipe.parts || []).map((p, idx) => {
+    const mt = idx === 0 ? "0" : "20px";
+    if (p.type === "equipment") {
+      const items = (p.items || [])
+        .map((i) => `<span class="chip">${escapeHtml(i)}</span>`).join("");
+      return `<section style="margin-top:${mt}">
+        <h3>${escapeHtml(p.title || "Áhöld")}</h3>
+        <div class="chips">${items}</div>
+      </section>`;
+    }
+    const ings = (p.ingredients || []).map((i) => `<li>${escapeHtml(i)}</li>`).join("");
+    const stps = renderSteps(p.steps || []);
+    return `<section style="margin-top:${mt}">
+      <h3>${escapeHtml(p.title || `Hluti ${idx + 1}`)}</h3>
+      <div class="cols">
+        <section><h4>Innihald</h4><ul>${ings}</ul></section>
+        <section><h4>Skref</h4><ol>${stps}</ol></section>
+      </div>
+    </section>`;
+  }).join("");
 }
 
 // ─── 4. LIST VIEW ────────────────────────────────────────────
@@ -228,7 +175,6 @@ function renderTagChips() {
   const tags = computeAllTags().slice(0, 14);
   const el = $("chips");
   el.innerHTML = "";
-
   for (const tag of tags) {
     const b = document.createElement("button");
     b.className = "chip" + (activeTag === tag ? " active" : "");
@@ -246,21 +192,19 @@ function renderTagChips() {
 function renderList() {
   const list = filterRecipes();
   const count = list.length;
-
   $("resultCount").textContent =
     count === 1 ? `${count} uppskrift` : `${count} uppskriftir`;
   $("empty").hidden = count !== 0;
 
   const grid = $("grid");
   grid.innerHTML = "";
-
   for (const r of list) {
     const a = document.createElement("a");
     a.className = "cardlink";
     a.href = `#/recipe/${encodeURIComponent(r.id)}`;
-
     const tags = (r.tags || []).slice(0, 4).map(pill).join(" ");
     a.innerHTML = `
+      ${r.cover_image ? `<img class="card-cover" src="${escapeHtml(r.cover_image)}" alt="" loading="lazy" />` : ""}
       <div class="title">${escapeHtml(r.title)}</div>
       <div class="meta">
         ${pill(r.category || "Uppskrift")}
@@ -290,37 +234,29 @@ function renderRecipe(recipe) {
     $("recipeArticle").innerHTML = `<p class="muted">Uppskrift fannst ekki.</p>`;
     return;
   }
-
   document.title = `${recipe.title} — Uppskriftir`;
-
   const meta = [
     recipe.category ? pill(recipe.category) : "",
     recipe.time_minutes ? pill(formatTime(recipe.time_minutes)) : "",
     recipe.servings ? pill(`${recipe.servings} skammtar`) : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  ].filter(Boolean).join(" ");
 
   const tags = (recipe.tags || []).map(pill).join(" ");
-
-  const body =
-    Array.isArray(recipe.parts) && recipe.parts.length
-      ? renderPartsRecipe(recipe)
-      : renderSingleRecipe(recipe);
-
+  const body = Array.isArray(recipe.parts) && recipe.parts.length
+    ? renderPartsRecipe(recipe)
+    : renderSingleRecipe(recipe);
   const notes = recipe.notes
     ? `<div class="note"><strong>Athugasemd:</strong> ${escapeHtml(recipe.notes)}</div>`
     : "";
 
   $("recipeArticle").innerHTML = `
+    ${recipe.cover_image ? `<img class="recipe-cover" src="${escapeHtml(recipe.cover_image)}" alt="${escapeHtml(recipe.title)}" />` : ""}
     <h2>${escapeHtml(recipe.title)}</h2>
     <div class="hero">
       ${meta}
       ${tags ? `<div class="hero-tags">${tags}</div>` : ""}
     </div>
-    ${recipe.description
-      ? `<div class="desc">${escapeHtml(recipe.description)}</div>`
-      : ""}
+    ${recipe.description ? `<div class="desc">${escapeHtml(recipe.description)}</div>` : ""}
     ${body}
     ${notes}`;
 }
@@ -330,9 +266,8 @@ function renderRecipe(recipe) {
 function parseRoute() {
   const hash = window.location.hash || "#/";
   const parts = hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-  if (parts[0] === "recipe" && parts[1]) {
+  if (parts[0] === "recipe" && parts[1])
     return { view: "recipe", id: decodeURIComponent(parts[1]) };
-  }
   return { view: "list" };
 }
 
@@ -359,7 +294,7 @@ async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
   } catch {
-    alert("Tókst ekki að afrita — vafrinn þinn leyfir hugsanlega ekki aðgang að klippiborð.");
+    alert("Tókst ekki að afrita — vafrinn þinn leyfir hugsanlega ekki aðgang að klippiborðinu.");
   }
 }
 
@@ -368,6 +303,17 @@ function bindUI() {
   $("category").addEventListener("change", renderList);
   $("random").addEventListener("click", randomRecipe);
 
+  // Hamburger menu toggle
+  const menuBtn      = $("menuBtn");
+  const menuDropdown = $("menuDropdown");
+  if (menuBtn) {
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menuDropdown.hidden = !menuDropdown.hidden;
+    });
+    // Close when clicking anywhere outside
+    document.addEventListener("click", () => { menuDropdown.hidden = true; });
+  }
   $("clearFilters").addEventListener("click", () => {
     $("search").value = "";
     $("category").value = "all";
@@ -375,17 +321,19 @@ function bindUI() {
     renderTagChips();
     renderList();
   });
-
   $("back").addEventListener("click", () => history.back());
   $("print").addEventListener("click", () => window.print());
-  $("copyLink").addEventListener("click", () =>
-    copyToClipboard(window.location.href)
-  );
-
+  $("copyLink").addEventListener("click", () => copyToClipboard(window.location.href));
   window.addEventListener("hashchange", route);
 }
 
 (async function init() {
+  // Only run on index.html — bail out if the main grid element isn't present
+  if (!document.getElementById("grid")) return;
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  window._sb = sb;
+
   await loadRecipes();
   populateCategorySelect();
   renderTagChips();

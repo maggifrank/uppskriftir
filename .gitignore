@@ -1,0 +1,11 @@
+# Local Netlify folder
+.netlify
+
+# Supabase local dev — ignore runtime folders, keep config and migrations
+supabase/.branches
+supabase/.temp
+
+# dotenvx
+.env.keys
+.env.local
+.env.*.local

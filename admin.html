@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="is">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Security headers are set via netlify.toml in production -->
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Uppskriftir — Admin</title>
+    <link rel="stylesheet" href="admin.css" />
+    <style>body { visibility: hidden; }</style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <h1>🍲 Uppskriftir — Admin</h1>
+        <a href="index.html">← Til baka á síðuna</a>
+        <button class="btn secondary small" id="logoutBtn" hidden>Útskrá</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="loginPanel" class="card">
+        <h2 style="margin:0 0 18px">Innskráning</h2>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 16px">
+          Aðgangur er takmarkaður við samþykkta notendur.
+        </p>
+        <div id="loginFlash" class="flash"></div>
+        <label>Netfang</label>
+        <input type="email" id="loginEmail" autocomplete="email" maxlength="254" />
+        <label>Lykilorð</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" maxlength="128" />
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn" id="loginBtn">Skrá inn</button>
+          <button class="btn secondary" id="signupBtn">Nýskráning</button>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:14px">
+          Nýskráning krefst þess að stjórnandi hafi bætt netfanginu þínu við fyrirfram.
+        </p>
+      </div>
+
+      <!-- ADMIN PANEL -->
+      <div id="adminPanel" hidden>
+        <div class="tabs">
+          <button class="tab active" data-tab="recipes">Uppskriftir</button>
+          <button class="tab" data-tab="editor"><span id="editorTabLabel">Ný uppskrift</span></button>
+          <button class="tab" data-tab="migrate">Flytja inn JSON</button>
+          <button class="tab" id="usersTab" data-tab="users" hidden>Notendur</button>
+        </div>
+
+        <!-- RECIPES TAB -->
+        <div id="tab-recipes">
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+              <h2 style="margin:0">Allar uppskriftir</h2>
+              <button class="btn small" id="newRecipeBtn">+ Ný uppskrift</button>
+            </div>
+            <div id="recipeListFlash" class="flash"></div>
+            <div id="recipeListLoading" style="color:var(--muted);font-size:14px">Hleður...</div>
+            <div id="recipeList" class="recipe-list"></div>
+          </div>
+        </div>
+
+        <!-- EDITOR TAB -->
+        <div id="tab-editor" hidden>
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+              <h2 style="margin:0" id="editorHeading">Ný uppskrift</h2>
+              <button class="btn secondary small" id="cancelEditBtn">Hætta við</button>
+            </div>
+            <div id="editorFlash" class="flash"></div>
+            <label>Titill *</label>
+            <input type="text" id="fTitle" placeholder="t.d. Amerískar pönnukökur" maxlength="200" />
+            <div class="row3" style="margin-top:14px">
+              <div>
+                <label>Flokkur</label>
+                <input type="text" id="fCategory" placeholder="t.d. Kaffitími" maxlength="100" />
+              </div>
+              <div>
+                <label>Tími (mínútur)</label>
+                <input type="number" id="fTime" min="0" max="10000" placeholder="30" />
+              </div>
+              <div>
+                <label>Skammtar</label>
+                <input type="number" id="fServings" min="0" max="1000" placeholder="4" />
+              </div>
+            </div>
+            <label>Lýsing</label>
+            <textarea id="fDescription" rows="2" maxlength="1000" placeholder="Stutt lýsing..."></textarea>
+            <label>Merki (tags, skiptir með kommu)</label>
+            <input type="text" id="fTags" placeholder="t.d. kaffitími, vegan, brauð" maxlength="300" />
+            <div style="margin-top:20px">
+              <div class="section-label">Hlutar uppskriftar</div>
+              <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">
+                Bættu við hlutum eins og þarf — t.d. "Botn" og "Kremið".
+                Þú getur líka bætt við "Áhöld" hluta.
+              </p>
+              <div id="partsContainer"></div>
+              <div class="add-part-row">
+                <button class="btn secondary small" id="addPartBtn">+ Bæta við hluta</button>
+                <button class="btn secondary small" id="addEquipmentBtn">+ Bæta við áhöldum</button>
+              </div>
+            </div>
+            <label style="margin-top:20px">Forsíðumynd</label>
+            <div class="img-upload-area" id="coverUploadArea">
+              <input type="file" id="coverFileInput" accept="image/jpeg,image/png,image/webp,image/gif" />
+              <div class="upload-hint">
+                Smelltu eða dragðu mynd hingað<br>
+                <span style="font-size:11px">JPEG, PNG, WebP — sjálfkrafa minnkað</span>
+              </div>
+            </div>
+            <div class="img-preview" id="coverPreview"></div>
+            <div class="img-progress" id="coverProgress"></div>
+            <label style="margin-top:20px">Athugasemd / ábending</label>
+            <textarea id="fNotes" rows="2" maxlength="500"></textarea>
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+              <button class="btn" id="saveRecipeBtn">Vista uppskrift</button>
+              <button class="btn danger" id="deleteRecipeBtn" hidden>Eyða uppskrift</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIGRATE TAB -->
+        <div id="tab-migrate" hidden>
+          <div class="card">
+            <h2 style="margin:0 0 14px">Flytja inn úr recipes.json</h2>
+            <p class="migrate-info">
+              Límdu inn innihald <code>recipes.json</code> til að flytja uppskriftir
+              yfir í gagnagrunninn. Uppskriftir með sama <code>id</code> verða uppfærðar.
+            </p>
+            <div id="migrateFlash" class="flash"></div>
+            <label>JSON innihald</label>
+            <textarea id="migrateJson" rows="12" placeholder='[{"id":"american-pancakes", ...}]'></textarea>
+            <button class="btn" id="migrateBtn" style="margin-top:14px">Flytja inn</button>
+          </div>
+        </div>
+
+        <!-- USERS TAB (super admin only) -->
+        <div id="tab-users" hidden>
+          <div class="card">
+            <h2 style="margin:0 0 6px">Notendur</h2>
+            <p style="font-size:13px;color:var(--muted);margin:0 0 16px">
+              Aðeins þú getur bætt við eða fjarlægt notendur.
+            </p>
+            <div id="usersFlash" class="flash"></div>
+            <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+              <input type="email" id="newUserEmail" placeholder="netfang@dæmi.is"
+                maxlength="254" style="flex:1;min-width:200px" />
+              <button class="btn small" id="addUserBtn">+ Bæta við</button>
+            </div>
+            <div id="userListLoading" style="color:var(--muted);font-size:14px">Hleður...</div>
+            <div id="userList" class="recipe-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>document.body.style.visibility = "visible";</script>
+    <script>document.body.style.visibility = "visible";</script>
+    <!-- Scripts at end of body so DOM is ready when they execute -->
+    <!-- Dependencies loaded in order: supabase → env → config → utils → modules -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="scripts/env.js"></script>
+    <script src="scripts/supabase-config.js"></script>
+    <script src="scripts/admin-utils.js"></script>
+    <script src="scripts/admin-storage.js"></script>
+    <script src="scripts/admin-users.js"></script>
+    <script src="scripts/admin-migrate.js"></script>
+    <script src="scripts/admin-recipes.js"></script>
+    <script src="scripts/admin-auth.js"></script>
+  </body>
+</html>
