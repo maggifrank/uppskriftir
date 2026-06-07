@@ -11,15 +11,21 @@ sb.auth.onAuthStateChange((_event, session) => {
   if (loggedIn) {
     checkSuperAdmin();
     // If opened via edit link e.g. admin.html#edit/recipe-id
+    // Read hash before clearing it
     const hash = window.location.hash;
-    if (hash.startsWith("#edit/")) {
-      const id = decodeURIComponent(hash.slice(6));
-      window.location.hash = "";
-      // Wait for recipe list to load first, then open editor
-      loadRecipeList().then(() => editRecipe(id));
-    } else {
-      loadRecipeList();
-    }
+    const editId = hash.startsWith("#edit/")
+      ? decodeURIComponent(hash.slice(6))
+      : null;
+
+    if (editId) window.location.hash = "";
+
+    // Always load recipe list first
+    loadRecipeList().then(() => {
+      if (editId) {
+        console.debug("[admin] opening editor for:", editId);
+        editRecipe(editId);
+      }
+    });
   }
 });
 
