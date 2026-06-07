@@ -11,6 +11,13 @@ sb.auth.onAuthStateChange((_event, session) => {
   if (loggedIn) {
     loadRecipeList();
     checkSuperAdmin();
+    // If opened via edit link e.g. admin.html#edit/recipe-id
+    const hash = window.location.hash;
+    if (hash.startsWith("#edit/")) {
+      const id = decodeURIComponent(hash.slice(6));
+      window.location.hash = "";
+      editRecipe(id);
+    }
   }
 });
 
