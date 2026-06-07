@@ -104,7 +104,17 @@ async function editRecipe(id) {
   $("fTags").value        = (r.tags || []).join(", ");
   $("fNotes").value       = r.notes || "";
   $("partsContainer").innerHTML = "";
-  (r.parts || []).forEach(p => $("partsContainer").appendChild(makePart(p)));
+
+  // Support both formats:
+  // - New format: r.parts array
+  // - Old flat format: r.ingredients + r.steps (from recipes.json migration)
+  const partsToRender = Array.isArray(r.parts) && r.parts.length
+    ? r.parts
+    : (r.ingredients || r.steps)
+      ? [{ title: "", ingredients: r.ingredients || [], steps: r.steps || [] }]
+      : [];
+
+  partsToRender.forEach(p => $("partsContainer").appendChild(makePart(p)));
 
   $("coverPreview").innerHTML = "";
   $("coverProgress").textContent = "";
@@ -251,8 +261,7 @@ function makePart(partData = {}) {
     const stpLbl = document.createElement("div");
     stpLbl.className = "section-label"; stpLbl.textContent = "Skref";
     body.appendChild(stpLbl);
-    const stepsRaw = (partData.steps || []).map(s => typeof s === "string" ? s : s.text || "");
-    const stpEditor = makeListEditor(stepsRaw, "t.d. Blandið saman eggjum og mjólk");
+    const stpEditor = makeStepEditor(partData.steps || []);
     stpEditor.dataset.role = "steps";
     body.appendChild(stpEditor);
   }
@@ -269,9 +278,185 @@ function getParts() {
     return {
       title,
       ingredients: getListValues(block.querySelector("[data-role=ingredients]")),
-      steps:       getListValues(block.querySelector("[data-role=steps]")),
+      steps:       getStepValues(block.querySelector("[data-role=steps]")),
     };
   });
+}
+
+// ── Step editor (text + optional photos) ─────────────────────
+function makeStepEditor(steps = []) {
+  const wrap = document.createElement("div");
+  wrap.className = "list-editor";
+  wrap.dataset.role = "steps";
+
+  function addStepRow(stepData = {}) {
+    const text   = typeof stepData === "string" ? stepData : stepData.text || "";
+    // Support both old single `image` and new `images` array
+    const images = typeof stepData === "object"
+      ? (stepData.images || (stepData.image ? [stepData.image] : []))
+      : [];
+
+    const row = document.createElement("div");
+    row.className = "list-item-row step-item-row";
+
+    // Text area
+    const ta = document.createElement("textarea");
+    ta.rows = 1; ta.value = text;
+    ta.placeholder = "t.d. Blandið saman eggjum og mjólk";
+    ta.maxLength = 500;
+    ta.addEventListener("input", () => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; });
+
+    // Photo button
+    const photoBtn = document.createElement("button");
+    photoBtn.type = "button";
+    photoBtn.className = "step-photo-btn";
+    photoBtn.title = "Bæta við mynd";
+    photoBtn.textContent = "📷";
+
+    // Hidden file input
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/jpeg,image/png,image/webp,image/gif";
+    fileInput.style.display = "none";
+
+    // Photos container
+    const photosWrap = document.createElement("div");
+    photosWrap.className = "step-photos";
+
+    // Track uploaded image URLs/paths for this step
+    row._stepImages = [...images];
+
+    // Render existing images
+    images.forEach((url, idx) => renderStepThumb(photosWrap, url, null, row, idx));
+
+    photoBtn.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      fileInput.value = "";
+      await uploadStepImage(file, row, photosWrap);
+    });
+
+    // Remove button
+    const rm = document.createElement("button");
+    rm.type = "button"; rm.className = "remove-item"; rm.textContent = "×";
+    rm.setAttribute("aria-label", "Fjarlægja skref");
+    rm.addEventListener("click", async () => {
+      // Delete any uploaded images for this step
+      for (const url of row._stepImages) {
+        const path = stepImagePathFromUrl(url);
+        if (path) await sb.storage.from(BUCKET).remove([path]);
+      }
+      row.remove();
+    });
+
+    row.appendChild(ta);
+    row.appendChild(photoBtn);
+    row.appendChild(fileInput);
+    row.appendChild(rm);
+
+    // Photos on second line
+    const photoLine = document.createElement("div");
+    photoLine.className = "step-photo-line";
+    photoLine.appendChild(photosWrap);
+    
+    const rowWrap = document.createElement("div");
+    rowWrap.className = "step-row-wrap";
+    rowWrap.appendChild(row);
+    rowWrap.appendChild(photoLine);
+
+    wrap.insertBefore(rowWrap, addBtn);
+    setTimeout(() => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }, 0);
+    return rowWrap;
+  }
+
+  const addBtn = document.createElement("button");
+  addBtn.type = "button"; addBtn.className = "add-item-btn"; addBtn.textContent = "+ Bæta við skrefi";
+  addBtn.addEventListener("click", () => addStepRow());
+  wrap.appendChild(addBtn);
+  steps.forEach(s => addStepRow(s));
+  return wrap;
+}
+
+function stepImagePathFromUrl(url) {
+  // Extract storage path from public URL
+  // e.g. https://xxx.supabase.co/storage/v1/object/public/recipe-images/bananabraud/steps/...
+  try {
+    const marker = "/recipe-images/";
+    const idx = url.indexOf(marker);
+    return idx !== -1 ? url.slice(idx + marker.length) : null;
+  } catch { return null; }
+}
+
+async function uploadStepImage(file, row, photosWrap) {
+  const ALLOWED = ["image/jpeg","image/png","image/webp","image/gif"];
+  if (!ALLOWED.includes(file.type)) {
+    flash($("editorFlash"), "Ógilt skráarsnið."); return;
+  }
+
+  // Show uploading indicator
+  const indicator = document.createElement("span");
+  indicator.className = "step-upload-indicator";
+  indicator.textContent = "Hleð upp...";
+  photosWrap.appendChild(indicator);
+
+  const resized  = await resizeImage(file);
+  const base     = editingId || slugify($("fTitle").value.trim()) || "new";
+  const ext      = "jpg";
+  const path     = `${base}/steps/step-${Date.now()}.${ext}`;
+
+  const { data, error } = await sb.storage
+    .from(BUCKET)
+    .upload(path, resized, { upsert: true, contentType: "image/jpeg" });
+
+  indicator.remove();
+
+  if (error) { flash($("editorFlash"), "Upphlöðun mistókst: " + error.message); return; }
+
+  const { data: { publicUrl } } = sb.storage.from(BUCKET).getPublicUrl(data.path);
+  row._stepImages.push(publicUrl);
+  renderStepThumb(photosWrap, publicUrl, data.path, row, row._stepImages.length - 1);
+}
+
+function renderStepThumb(photosWrap, url, storagePath, row, idx) {
+  const item = document.createElement("div");
+  item.className = "step-thumb";
+
+  const img = document.createElement("img");
+  // Use data URL for local preview if URL is localhost
+  if (url.includes("127.0.0.1") || url.includes("localhost:54321")) {
+    // Already a data URL or needs conversion — just set src directly
+    img.src = url;
+  } else {
+    img.src = url;
+  }
+  img.alt = "";
+
+  const rm = document.createElement("button");
+  rm.type = "button"; rm.className = "remove-img"; rm.textContent = "×";
+  rm.addEventListener("click", async () => {
+    const path = storagePath || stepImagePathFromUrl(url);
+    if (path) await sb.storage.from(BUCKET).remove([path]);
+    row._stepImages.splice(row._stepImages.indexOf(url), 1);
+    item.remove();
+  });
+
+  item.appendChild(img);
+  item.appendChild(rm);
+  photosWrap.appendChild(item);
+}
+
+function getStepValues(stepsEditorEl) {
+  return [...stepsEditorEl.querySelectorAll(".step-row-wrap")].map(rowWrap => {
+    const ta     = rowWrap.querySelector("textarea");
+    const row    = rowWrap.querySelector(".list-item-row");
+    const text   = sanitiseText(ta?.value || "");
+    const images = row?._stepImages || [];
+    if (!text && !images.length) return null;
+    if (!images.length) return text;           // plain string if no images
+    if (images.length === 1) return { text, images };  // single image
+    return { text, images };                   // multiple images
+  }).filter(Boolean);
 }
 
 $("addPartBtn").addEventListener("click",      () => $("partsContainer").appendChild(makePart()));

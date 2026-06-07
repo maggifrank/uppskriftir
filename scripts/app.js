@@ -117,10 +117,17 @@ function filterRecipes() {
 function renderSteps(steps = []) {
   return steps.map((s) => {
     if (typeof s === "string") return `<li>${escapeHtml(s)}</li>`;
-    const img = s.image
-      ? `<img src="${escapeHtml(s.image)}" alt="" loading="lazy" />`
-      : "";
-    return `<li class="step"><div class="step-text">${escapeHtml(s.text || "")}</div>${img}</li>`;
+
+    // Support old single `image` string and new `images` array
+    const imageUrls = s.images || (s.image ? [s.image] : []);
+    const imgs = imageUrls
+      .map(url => `<img src="${escapeHtml(url)}" alt="" loading="lazy" />`)
+      .join("");
+
+    return `<li class="step">
+      <div class="step-text">${escapeHtml(s.text || "")}</div>
+      ${imgs}
+    </li>`;
   }).join("");
 }
 
