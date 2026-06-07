@@ -204,7 +204,7 @@ function renderList() {
     a.href = `#/recipe/${encodeURIComponent(r.id)}`;
     const tags = (r.tags || []).slice(0, 4).map(pill).join(" ");
     a.innerHTML = `
-      ${r.cover_image ? `<img class="card-cover" src="${escapeHtml(r.cover_image)}" alt="" loading="lazy" />` : ""}
+      <img class="card-cover" src="${escapeHtml(r.cover_image || '')}" alt="" loading="lazy" />
       <div class="title">${escapeHtml(r.title)}</div>
       <div class="meta">
         ${pill(r.category || "Uppskrift")}

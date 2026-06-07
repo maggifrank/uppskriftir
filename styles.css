@@ -173,7 +173,6 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  align-items: start;
 }
 
 @media (max-width: 980px) {
@@ -441,10 +440,8 @@ h2 {
   object-fit: cover;
   border-radius: 10px;
   display: block;
-  background: rgba(0,0,0,0.2);
-}
-.card-cover[src=""], .card-cover:not([src]) {
-  display: none;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 /* Full-width hero image on the recipe detail page */
