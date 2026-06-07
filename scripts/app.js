@@ -302,6 +302,18 @@ function bindUI() {
   $("search").addEventListener("input", renderList);
   $("category").addEventListener("change", renderList);
   $("random").addEventListener("click", randomRecipe);
+
+  // Hamburger menu toggle
+  const menuBtn      = $("menuBtn");
+  const menuDropdown = $("menuDropdown");
+  if (menuBtn) {
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menuDropdown.hidden = !menuDropdown.hidden;
+    });
+    // Close when clicking anywhere outside
+    document.addEventListener("click", () => { menuDropdown.hidden = true; });
+  }
   $("clearFilters").addEventListener("click", () => {
     $("search").value = "";
     $("category").value = "all";
@@ -316,6 +328,9 @@ function bindUI() {
 }
 
 (async function init() {
+  // Only run on index.html — bail out if the main grid element isn't present
+  if (!document.getElementById("grid")) return;
+
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   window._sb = sb;
 

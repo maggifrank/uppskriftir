@@ -6,9 +6,10 @@
     <!-- Security headers are set via netlify.toml in production -->
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Uppskriftir — Admin</title>
     <link rel="stylesheet" href="admin.css" />
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>body { visibility: hidden; }</style>
   </head>
   <body>
     <div class="page">
@@ -153,6 +154,8 @@
         </div>
       </div>
     </div>
+    <script>document.body.style.visibility = "visible";</script>
+    <script>document.body.style.visibility = "visible";</script>
     <!-- Scripts at end of body so DOM is ready when they execute -->
     <!-- Dependencies loaded in order: supabase → env → config → utils → modules -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>

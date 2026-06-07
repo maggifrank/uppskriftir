@@ -461,3 +461,45 @@ h2 {
   }
   .card-cover { display: none; }
 }
+
+/* ─── HAMBURGER MENU ─────────────────────────────────────── */
+
+.menu-wrap {
+  position: relative;
+}
+
+.menu-btn {
+  font-size: 18px;
+  padding: 8px 14px;
+  line-height: 1;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #151c35;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.menu-dropdown a {
+  display: block;
+  padding: 11px 16px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.12s;
+}
+
+.menu-dropdown a:hover {
+  background: rgba(122,162,255,0.12);
+}
+
+@media print {
+  .menu-wrap { display: none; }
+}
