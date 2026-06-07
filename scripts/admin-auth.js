@@ -14,22 +14,25 @@ const _initialEditId = (function() {
   return null;
 })();
 
-let _editHandled = false;
+let _adminReady = false;
 
 sb.auth.onAuthStateChange((_event, session) => {
   const loggedIn = !!session;
   $("loginPanel").hidden = loggedIn;
   $("adminPanel").hidden = !loggedIn;
   $("logoutBtn").hidden  = !loggedIn;
-  if (loggedIn) {
+
+  if (loggedIn && !_adminReady) {
+    _adminReady = true;
     checkSuperAdmin();
     loadRecipeList().then(() => {
-      if (_initialEditId && !_editHandled) {
-        _editHandled = true;
-        console.debug("[admin] opening editor for:", _initialEditId);
+      if (_initialEditId) {
         editRecipe(_initialEditId);
       }
     });
+  } else if (!loggedIn) {
+    // Reset on logout so login works again
+    _adminReady = false;
   }
 });
 
