@@ -3,14 +3,33 @@
 // Depends on: admin-utils.js, admin-recipes.js, admin-users.js
 // ============================================================
 
+// Capture the edit ID from the hash immediately on page load,
+// before anything clears or changes the hash.
+const _initialEditId = (function() {
+  const h = window.location.hash;
+  if (h.startsWith("#edit/")) {
+    window.location.hash = "";
+    return decodeURIComponent(h.slice(6));
+  }
+  return null;
+})();
+
+let _editHandled = false;
+
 sb.auth.onAuthStateChange((_event, session) => {
   const loggedIn = !!session;
   $("loginPanel").hidden = loggedIn;
   $("adminPanel").hidden = !loggedIn;
   $("logoutBtn").hidden  = !loggedIn;
   if (loggedIn) {
-    loadRecipeList();
     checkSuperAdmin();
+    loadRecipeList().then(() => {
+      if (_initialEditId && !_editHandled) {
+        _editHandled = true;
+        console.debug("[admin] opening editor for:", _initialEditId);
+        editRecipe(_initialEditId);
+      }
+    });
   }
 });
 

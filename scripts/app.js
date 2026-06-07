@@ -219,6 +219,17 @@ function renderList() {
         ${r.servings ? pill(`${r.servings} skammtar`) : ""}
       </div>
       <div class="meta">${tags}</div>`;
+
+    // Add edit button for logged-in users
+    if (window._isAdmin) {
+      const editBtn = document.createElement("a");
+      editBtn.className = "card-edit-btn";
+      editBtn.href = `admin.html#edit/${encodeURIComponent(r.id)}`;
+      editBtn.textContent = "Breyta";
+      editBtn.addEventListener("click", e => e.stopPropagation());
+      a.appendChild(editBtn);
+    }
+
     grid.appendChild(a);
   }
 }
@@ -255,6 +266,13 @@ function renderRecipe(recipe) {
   const notes = recipe.notes
     ? `<div class="note"><strong>Athugasemd:</strong> ${escapeHtml(recipe.notes)}</div>`
     : "";
+
+  // Add edit button to recipe-top bar if logged in
+  const editLink = document.getElementById("recipeEditBtn");
+  if (editLink) {
+    editLink.href = `admin.html#edit/${encodeURIComponent(recipe.id)}`;
+    editLink.hidden = !window._isAdmin;
+  }
 
   $("recipeArticle").innerHTML = `
     ${recipe.cover_image ? `<img class="recipe-cover" src="${escapeHtml(recipe.cover_image)}" alt="${escapeHtml(recipe.title)}" />` : ""}
@@ -340,6 +358,12 @@ function bindUI() {
 
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   window._sb = sb;
+
+  // Check session before rendering so edit buttons show correctly
+  const { data: { session } } = await sb.auth.getSession();
+  window._isAdmin = !!session;
+  const adminLink = document.getElementById("adminLink");
+  if (adminLink) adminLink.hidden = !session;
 
   await loadRecipes();
   populateCategorySelect();
