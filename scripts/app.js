@@ -359,7 +359,18 @@ function bindUI() {
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   window._sb = sb;
 
-  // Check session before rendering so edit buttons show correctly
+  // Listen for auth state changes — re-render when session is restored
+  // This handles the case where the session is restored after initial render
+  sb.auth.onAuthStateChange((_event, session) => {
+    const wasAdmin = window._isAdmin;
+    window._isAdmin = !!session;
+    const adminLink = document.getElementById("adminLink");
+    if (adminLink) adminLink.hidden = !session;
+    // Re-render list if admin status changed so edit buttons appear/disappear
+    if (wasAdmin !== window._isAdmin) renderList();
+  });
+
+  // Also do an immediate check
   const { data: { session } } = await sb.auth.getSession();
   window._isAdmin = !!session;
   const adminLink = document.getElementById("adminLink");
