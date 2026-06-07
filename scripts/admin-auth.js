@@ -9,14 +9,16 @@ sb.auth.onAuthStateChange((_event, session) => {
   $("adminPanel").hidden = !loggedIn;
   $("logoutBtn").hidden  = !loggedIn;
   if (loggedIn) {
-    loadRecipeList();
     checkSuperAdmin();
     // If opened via edit link e.g. admin.html#edit/recipe-id
     const hash = window.location.hash;
     if (hash.startsWith("#edit/")) {
       const id = decodeURIComponent(hash.slice(6));
       window.location.hash = "";
-      editRecipe(id);
+      // Wait for recipe list to load first, then open editor
+      loadRecipeList().then(() => editRecipe(id));
+    } else {
+      loadRecipeList();
     }
   }
 });
