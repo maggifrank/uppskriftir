@@ -4,8 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <!-- Security headers are set via netlify.toml in production -->
+    <!-- CSP meta tag disabled — netlify.toml handles this on deployed sites -->
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <script>
+      // On local dev, disable CSP restrictions so local Supabase image URLs work
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        const m = document.createElement('meta');
+        m.httpEquiv = 'Content-Security-Policy';
+        m.content = "default-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: blob:;";
+        document.head.appendChild(m);
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Uppskriftir — Admin</title>
     <link rel="stylesheet" href="admin.css" />

@@ -19,35 +19,37 @@ function resetCoverImage() {
 }
 
 // Resize and compress any image to max 1200px, JPEG at 72% quality.
-// Runs entirely in the browser — no server needed.
+// Uses FileReader instead of blob: URLs to avoid CSP issues in Firefox.
 function resizeImage(file) {
   return new Promise((resolve) => {
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(objectUrl);
-      const MAX_DIM = 1200;
-      let { width, height } = img;
-      if (width > MAX_DIM || height > MAX_DIM) {
-        if (width >= height) {
-          height = Math.round((height / width) * MAX_DIM);
-          width  = MAX_DIM;
-        } else {
-          width  = Math.round((width / height) * MAX_DIM);
-          height = MAX_DIM;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX_DIM = 1200;
+        let { width, height } = img;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width >= height) {
+            height = Math.round((height / width) * MAX_DIM);
+            width  = MAX_DIM;
+          } else {
+            width  = Math.round((width / height) * MAX_DIM);
+            height = MAX_DIM;
+          }
         }
-      }
-      const canvas = document.createElement("canvas");
-      canvas.width  = width;
-      canvas.height = height;
-      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-      canvas.toBlob(
-        (blob) => resolve(new File([blob], "cover.jpg", { type: "image/jpeg" })),
-        "image/jpeg",
-        0.72
-      );
+        const canvas = document.createElement("canvas");
+        canvas.width  = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => resolve(new File([blob], "cover.jpg", { type: "image/jpeg" })),
+          "image/jpeg",
+          0.72
+        );
+      };
+      img.src = e.target.result;
     };
-    img.src = objectUrl;
+    reader.readAsDataURL(file);
   });
 }
 
@@ -87,7 +89,13 @@ async function uploadCover(file) {
   coverImagePath = data.path;
   const kb = Math.round(file.size / 1024);
   progress.textContent = `Mynd vistuð (${kb} KB)`;
-  renderCoverPreview(publicUrl, data.path);
+
+  // On local dev the public URL is http://127.0.0.1 which browsers block in previews.
+  // Use a data URL for the preview thumbnail instead — the stored URL is still correct.
+  const previewUrl = publicUrl.includes("127.0.0.1") || publicUrl.includes("localhost")
+    ? await fileToDataUrl(file)
+    : publicUrl;
+  renderCoverPreview(previewUrl, data.path);
 }
 
 function renderCoverPreview(url, storagePath) {
@@ -109,6 +117,14 @@ function renderCoverPreview(url, storagePath) {
   item.appendChild(img);
   item.appendChild(rm);
   preview.appendChild(item);
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.readAsDataURL(file);
+  });
 }
 
 function setupCoverUpload() {
