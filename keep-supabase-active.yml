@@ -1,0 +1,26 @@
+name: Keep Supabase Active
+
+# Runs every 3 days to prevent Supabase free-tier auto-pause
+# (projects pause after 7 days of no API activity)
+on:
+  schedule:
+    - cron: "0 9 */3 * *"   # 09:00 UTC every 3 days
+  workflow_dispatch:         # allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping production Supabase
+        run: |
+          curl -s -o /dev/null -w "Production: %{http_code}\n" \
+            "${{ secrets.SUPABASE_PROD_URL }}/rest/v1/recipes?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_PROD_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_PROD_ANON_KEY }}"
+
+      - name: Ping test Supabase
+        run: |
+          curl -s -o /dev/null -w "Test: %{http_code}\n" \
+            "${{ secrets.SUPABASE_TEST_URL }}/rest/v1/recipes?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_TEST_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_TEST_ANON_KEY }}"
