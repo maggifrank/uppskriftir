@@ -1,11 +1,10 @@
 name: Keep Supabase Active
 
 # Runs every 3 days to prevent Supabase free-tier auto-pause
-# (projects pause after 7 days of no API activity)
 on:
   schedule:
-    - cron: "0 9 */3 * *"   # 09:00 UTC every 3 days
-  workflow_dispatch:         # allows manual trigger from GitHub Actions tab
+    - cron: "0 9 */3 * *"
+  workflow_dispatch:
 
 jobs:
   ping-supabase:
@@ -13,14 +12,19 @@ jobs:
     steps:
       - name: Ping production Supabase
         run: |
-          curl -s -o /dev/null -w "Production: %{http_code}\n" \
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             "${{ secrets.SUPABASE_PROD_URL }}/rest/v1/recipes?select=id&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_PROD_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_PROD_ANON_KEY }}"
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_PROD_ANON_KEY }}")
+          echo "Production: $STATUS"
+          [ "$STATUS" = "200" ] || echo "Warning: production returned $STATUS"
 
       - name: Ping test Supabase
+        continue-on-error: true
         run: |
-          curl -s -o /dev/null -w "Test: %{http_code}\n" \
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             "${{ secrets.SUPABASE_TEST_URL }}/rest/v1/recipes?select=id&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_TEST_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_TEST_ANON_KEY }}"
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_TEST_ANON_KEY }}")
+          echo "Test: $STATUS"
+          [ "$STATUS" = "200" ] || echo "Warning: test returned $STATUS"
