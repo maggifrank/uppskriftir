@@ -1,30 +1,66 @@
 name: Keep Supabase Active
 
-# Runs every 3 days to prevent Supabase free-tier auto-pause
+# Runs every 4 hours (6x/day) to simulate spread-out usage rather than a
+# single daily touch, well inside Supabase's 7-day pause window.
 on:
   schedule:
-    - cron: "0 9 */3 * *"
+    - cron: "0 */4 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write   # needed for the anti-disable commit step
 
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Ping production Supabase
         run: |
+          # Vary offset each run so it's not the identical request every time.
+          OFFSET=$(( RANDOM % 20 ))
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            "${{ secrets.SUPABASE_PROD_URL }}/rest/v1/recipes?select=id&limit=1" \
+            --retry 3 --retry-delay 5 --retry-connrefused \
+            "${{ secrets.SUPABASE_PROD_URL }}/rest/v1/recipes?select=id&limit=1&offset=$OFFSET" \
             -H "apikey: ${{ secrets.SUPABASE_PROD_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_PROD_ANON_KEY }}")
-          echo "Production: $STATUS"
-          [ "$STATUS" = "200" ] || echo "Warning: production returned $STATUS"
+          echo "Production: $STATUS (offset $OFFSET)"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Production ping failed with status $STATUS"
+            exit 1
+          fi
 
       - name: Ping test Supabase
-        continue-on-error: true
         run: |
+          OFFSET=$(( RANDOM % 20 ))
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            "${{ secrets.SUPABASE_TEST_URL }}/rest/v1/recipes?select=id&limit=1" \
+            --retry 3 --retry-delay 5 --retry-connrefused \
+            "${{ secrets.SUPABASE_TEST_URL }}/rest/v1/recipes?select=id&limit=1&offset=$OFFSET" \
             -H "apikey: ${{ secrets.SUPABASE_TEST_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_TEST_ANON_KEY }}")
-          echo "Test: $STATUS"
-          [ "$STATUS" = "200" ] || echo "Warning: test returned $STATUS"
+          echo "Test: $STATUS (offset $OFFSET)"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Test ping failed with status $STATUS"
+            exit 1
+          fi
+
+      # Prevents GitHub's own 60-day "no repo activity" auto-disable from
+      # silently killing this schedule on a low-commit repo. Only commits
+      # if 45+ days have passed since the last one, so in practice it's a
+      # no-op on 5 of every 6 runs today and stays cheap either way.
+      - name: Anti-disable heartbeat commit
+        run: |
+          git config user.name "keepalive-bot"
+          git config user.email "actions@users.noreply.github.com"
+          LAST_COMMIT_DAYS=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          echo "Days since last commit: $LAST_COMMIT_DAYS"
+          if [ "$LAST_COMMIT_DAYS" -ge 45 ]; then
+            mkdir -p .github
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/.keepalive
+            git add .github/.keepalive
+            git commit -m "chore: keepalive heartbeat"
+            git push
+          else
+            echo "Recent commit exists, skipping."
+          fi
